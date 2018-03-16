@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ORB_SLAM2"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\opt\;CMake Files\..\..\..\..\opt\ros\;CMake Files\..\..\..\..\opt\ros\kinetic\;CMake Files\..\..\..\..\opt\ros\kinetic\share\;CMake Files\..\..\..\..\opt\ros\kinetic\share\OpenCV-3.3.1\;CMake Files\..\..\Pangolin-master-build\;CMake Files\..\..\Pangolin-master-build\src\;CMake Files\cmake_modules\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/cmake-build-release"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stereo_mynteye">
+				<Option output="/home/tony_jun/Git/ORB_SLAM2/Examples/Stereo/stereo_mynteye" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/Examples/Stereo"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/tony_jun/project/mynteye-1.7-linux-x64-gcc5-opencv-3.2.0/include"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/tony_jun/Pangolin-master/include"/>
+					<Add directory="/home/tony_jun/Pangolin-master-build/src/include"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 stereo_mynteye"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="stereo_mynteye/fast">
+				<Option output="/home/tony_jun/Git/ORB_SLAM2/Examples/Stereo/stereo_mynteye" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/Examples/Stereo"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/tony_jun/project/mynteye-1.7-linux-x64-gcc5-opencv-3.2.0/include"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/tony_jun/Pangolin-master/include"/>
+					<Add directory="/home/tony_jun/Pangolin-master-build/src/include"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 stereo_mynteye/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ORB_SLAM2">
+				<Option output="/home/tony_jun/Git/ORB_SLAM2/lib/libORB_SLAM2.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/tony_jun/project/mynteye-1.7-linux-x64-gcc5-opencv-3.2.0/include"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/tony_jun/Pangolin-master/include"/>
+					<Add directory="/home/tony_jun/Pangolin-master-build/src/include"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 ORB_SLAM2"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ORB_SLAM2/fast">
+				<Option output="/home/tony_jun/Git/ORB_SLAM2/lib/libORB_SLAM2.so" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/tony_jun/Git/ORB_SLAM2/cmake-build-release"/>
+				<Option object_output="./"/>
+				<Option type="3"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCOMPILEDWITHC11"/>
+					<Add directory="/home/tony_jun/project/mynteye-1.7-linux-x64-gcc5-opencv-3.2.0/include"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2"/>
+					<Add directory="/home/tony_jun/Git/ORB_SLAM2/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/home/tony_jun/Pangolin-master/include"/>
+					<Add directory="/home/tony_jun/Pangolin-master-build/src/include"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1"/>
+					<Add directory="/opt/ros/kinetic/include/opencv-3.3.1/opencv"/>
+					<Add directory="/usr/include/c++/5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/5"/>
+					<Add directory="/usr/include/c++/5/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/5/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 ORB_SLAM2/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/Examples/Stereo/stereo_mynteye.cc">
+			<Option target="stereo_mynteye"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Converter.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Frame.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/FrameDrawer.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Initializer.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/KeyFrame.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/KeyFrameDatabase.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/LocalMapping.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/LoopClosing.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Map.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/MapDrawer.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/MapPoint.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/ORBextractor.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/ORBmatcher.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Optimizer.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/PnPsolver.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Sim3Solver.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/System.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Tracking.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/src/Viewer.cc">
+			<Option target="ORB_SLAM2"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../../../opt/ros/kinetic/share/OpenCV-3.3.1/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\kinetic\share\OpenCV-3.3.1\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../../../opt/ros/kinetic/share/OpenCV-3.3.1/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\kinetic\share\OpenCV-3.3.1\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../../../opt/ros/kinetic/share/OpenCV-3.3.1/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\kinetic\share\OpenCV-3.3.1\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../../../opt/ros/kinetic/share/OpenCV-3.3.1/OpenCVModules-none.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\opt\ros\kinetic\share\OpenCV-3.3.1\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../Pangolin-master-build/src/PangolinConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\Pangolin-master-build\src\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../Pangolin-master-build/src/PangolinConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\Pangolin-master-build\src\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/../../Pangolin-master-build/src/PangolinTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\Pangolin-master-build\src\"/>
+		</Unit>
+		<Unit filename="/home/tony_jun/Git/ORB_SLAM2/cmake_modules/FindEigen3.cmake">
+			<Option virtualFolder="CMake Files\cmake_modules\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

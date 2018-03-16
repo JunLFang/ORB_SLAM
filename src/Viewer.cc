@@ -98,6 +98,7 @@ void Viewer::Run()
 
         mpMapDrawer->GetCurrentOpenGLCameraMatrix(Twc);
 
+
         if(menuFollowCamera && bFollow)
         {
             s_cam.Follow(Twc);

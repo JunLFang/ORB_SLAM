@@ -28,16 +28,22 @@ namespace ORB_SLAM2
 {
 
 
-MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap)
+MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap),mPosevector(cv::Mat(4,1,CV_32FC1)),mMap2D(cv::Mat(500,500,CV_32FC1))
 {
-    cv::FileStorage fSettings(strSettingPath, cv::FileStorage::READ);
 
+    cv::FileStorage fSettings(strSettingPath, cv::FileStorage::READ);
+    mPosevector.at<float>(0,0) = 0.0;
+    mPosevector.at<float>(1,0) = 0.0;
+    mPosevector.at<float>(2,0) = 0.0;
+    mPosevector.at<float>(3,0) = 1.0;
+    std::cout<<mPosevector<<std::endl;
     mKeyFrameSize = fSettings["Viewer.KeyFrameSize"];
     mKeyFrameLineWidth = fSettings["Viewer.KeyFrameLineWidth"];
     mGraphLineWidth = fSettings["Viewer.GraphLineWidth"];
     mPointSize = fSettings["Viewer.PointSize"];
     mCameraSize = fSettings["Viewer.CameraSize"];
     mCameraLineWidth = fSettings["Viewer.CameraLineWidth"];
+
 
 }
 
@@ -60,6 +66,11 @@ void MapDrawer::DrawMapPoints()
         if(vpMPs[i]->isBad() || spRefMPs.count(vpMPs[i]))
             continue;
         cv::Mat pos = vpMPs[i]->GetWorldPos();
+        //add map show
+//        cv::circle(mMap2D, cv::Point2f(pos.at<float>(0)*10+500,pos.at<float>(1)*10+500),0,255);
+//        cout<<cv::Point2f(pos.at<float>(0)+500,pos.at<float>(1)+500)<<endl;
+//        cv::imshow("map2d",mMap2D);
+
         glVertex3f(pos.at<float>(0),pos.at<float>(1),pos.at<float>(2));
     }
     glEnd();
@@ -80,6 +91,7 @@ void MapDrawer::DrawMapPoints()
     glEnd();
 }
 
+
 void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
 {
     const float &w = mKeyFrameSize;
@@ -87,6 +99,26 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
     const float z = w*0.6;
 
     const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
+
+    for(auto each_key : vpKFs)
+    {
+        cv::imshow("each_key pose",each_key->GetPose());
+        //cout<<mPosevector<<endl;
+//        mPosevector=(each_key->GetPose())*mPosevector;
+//        float x3D=mPosevector.at<float>(0,0);
+//        float y3D=mPosevector.at<float>(1,0);
+//        float x2D=x3D+250;
+//        float y2D=y3D+250;
+//
+//        cv::circle(mMap2D, cv::Point2f(x2D,y2D),0,255);
+//        cv::imshow("map2d",mMap2D);
+
+//        std::cout<<mPosevector.at<float>(0,0)<<"," <<endl;
+//        std::cout<<mPosevector.at<float>(1,0)<<","  <<endl;
+//        std::cout<<mPosevector.at<float>(2,0)<<","  <<endl;
+//        std::cout<<mPosevector.at<float>(3,0)<<"\n"<<endl;
+    }
+
 
     if(bDrawKF)
     {
@@ -139,6 +171,37 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
             // Covisibility Graph
             const vector<KeyFrame*> vCovKFs = vpKFs[i]->GetCovisiblesByWeight(100);
             cv::Mat Ow = vpKFs[i]->GetCameraCenter();
+            cv::Mat trans_matrix(3,3,CV_32FC1);
+            float m0[]={ cos(M_PI/4),-sin(M_PI/4),0,
+                         sin(M_PI/4),cos(M_PI/4),0,
+                       0,0,1 };
+            InitMat(trans_matrix,m0);
+            cv::Mat Ow_fit;
+            Ow_fit=trans_matrix*Ow;
+            float x3D=Ow_fit.at<float>(0,0);
+            float y3D=Ow_fit.at<float>(1,0);
+            std::cout<<x3D<<"," <<endl;
+            std::cout<<y3D<<"\n"  <<endl;
+
+            cv::circle(mMap2D, cv::Point2f(x3D*100+250,y3D*100+250),0,255);
+            cv::imshow("map2d",mMap2D);
+//          for(auto each_key : vCovKFs)
+//          {
+//            cv::imshow("each_key pose",each_key->GetPose());
+//            //cout<<mPosevector<<endl;
+//            mPosevector=(each_key->GetPose())*mPosevector;
+//            float x3D=mPosevector.at<float>(0,0);
+//            float y3D=mPosevector.at<float>(1,0);
+//            float x2D=x3D*cos(M_PI/4)+500;
+//            float y2D=y3D*cos(M_PI/4)+500;
+//            cv::circle(mMap2D, cv::Point2f(x2D,y2D),0,255);
+//            cv::imshow("map2d",mMap2D);
+//
+//            std::cout<<mPosevector.at<float>(0,0)<<"," <<endl;
+//            std::cout<<mPosevector.at<float>(1,0)<<","  <<endl;
+//            std::cout<<mPosevector.at<float>(2,0)<<","  <<endl;
+//            std::cout<<mPosevector.at<float>(3,0)<<"\n"<<endl;
+//          }
             if(!vCovKFs.empty())
             {
                 for(vector<KeyFrame*>::const_iterator vit=vCovKFs.begin(), vend=vCovKFs.end(); vit!=vend; vit++)
@@ -229,6 +292,7 @@ void MapDrawer::GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M)
 {
     if(!mCameraPose.empty())
     {
+      cout<<"CmaeraPose Matrix :\n"<<mCameraPose<<endl;
         cv::Mat Rwc(3,3,CV_32F);
         cv::Mat twc(3,1,CV_32F);
         {
@@ -256,9 +320,20 @@ void MapDrawer::GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M)
         M.m[13] = twc.at<float>(1);
         M.m[14] = twc.at<float>(2);
         M.m[15]  = 1.0;
+
+      cout<<"OpenGL Matrix ：\n"<<M<<endl;
     }
     else
         M.SetIdentity();
 }
+
+void MapDrawer::InitMat(cv::Mat& m,float* num)
+{
+  for(int i=0;i<m.rows;i++)
+    for(int j=0;j<m.cols;j++)
+      m.at<float>(i,j)=*(num+i*m.rows+j);
+}
+
+
 
 } //namespace ORB_SLAM

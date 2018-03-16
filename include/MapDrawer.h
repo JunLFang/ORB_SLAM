@@ -45,6 +45,8 @@ public:
     void SetReferenceKeyFrame(KeyFrame *pKF);
     void GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M);
 
+    void InitMat(cv::Mat& m,float* num);
+
 private:
 
     float mKeyFrameSize;
@@ -57,6 +59,10 @@ private:
     cv::Mat mCameraPose;
 
     std::mutex mMutexCamera;
+
+
+    cv::Mat mPosevector;
+    cv::Mat mMap2D;
 };
 
 } //namespace ORB_SLAM

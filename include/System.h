@@ -22,30 +22,26 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include<string>
-#include<thread>
-#include<opencv2/core/core.hpp>
+#include <string>
+#include <thread>
+#include <opencv2/opencv.hpp>
+#include <mutex>
 
-#include "Tracking.h"
-#include "FrameDrawer.h"
-#include "MapDrawer.h"
-#include "Map.h"
-#include "LocalMapping.h"
-#include "LoopClosing.h"
-#include "KeyFrameDatabase.h"
-#include "ORBVocabulary.h"
-#include "Viewer.h"
+using namespace std;
+using namespace cv;
 
 namespace ORB_SLAM2
 {
-
+class MapPoint;
 class Viewer;
 class FrameDrawer;
 class Map;
 class Tracking;
 class LocalMapping;
 class LoopClosing;
-
+class KeyFrameDatabase;
+class ORBVocabulary;
+class MapDrawer;
 class System
 {
 public:
@@ -113,7 +109,7 @@ public:
     void SaveTrajectoryKITTI(const string &filename);
 
     // TODO: Save/Load functions
-    // SaveMap(const string &filename);
+    bool SaveMap(const string &filename);
     // LoadMap(const string &filename);
 
     // Information from most recent processed frame

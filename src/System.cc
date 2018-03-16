@@ -18,11 +18,18 @@
 * along with ORB-SLAM2. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
+#include "Tracking.h"
+#include "FrameDrawer.h"
+#include "MapDrawer.h"
+#include "Map.h"
+#include "LocalMapping.h"
+#include "LoopClosing.h"
+#include "KeyFrameDatabase.h"
+#include "ORBVocabulary.h"
+#include "Viewer.h"
 
 #include "System.h"
 #include "Converter.h"
-#include <thread>
 #include <pangolin/pangolin.h>
 #include <iomanip>
 
@@ -487,6 +494,12 @@ vector<cv::KeyPoint> System::GetTrackedKeyPointsUn()
 {
     unique_lock<mutex> lock(mMutexState);
     return mTrackedKeyPointsUn;
+}
+
+
+bool System::SaveMap(const string &filename) {
+    cerr << "System Saving to " << filename << endl;
+    return mpMap->Save(filename);
 }
 
 } //namespace ORB_SLAM

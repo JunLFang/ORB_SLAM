@@ -1,0 +1,4 @@
+/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/CMakeFiles/rebuild_cache.dir
+/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/CMakeFiles/edit_cache.dir
+/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/CMakeFiles/stereo_mynteye.dir
+/home/tony_jun/Git/ORB_SLAM2/cmake-build-release/CMakeFiles/ORB_SLAM2.dir
