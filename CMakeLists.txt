@@ -41,7 +41,7 @@ if(NOT OpenCV_FOUND)
       message(FATAL_ERROR "OpenCV > 2.4.3 not found.")
    endif()
 endif()
-
+message("<<<<<<${OpenCV_LIBS}<<<<<<<<<")
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
 

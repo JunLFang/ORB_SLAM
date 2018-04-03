@@ -35,15 +35,16 @@
 using namespace std;
 using namespace mynteye;
 
-
+void Draw2dMap(Mat &pose, Mat &background, double timestamp);
 
 
 int main(int argc, char **argv)
 {
+    Mat background(1200,1200,CV_32F);
     int slam_flag=1;
     std::uint32_t timestamp;
     float time;
-    //vector<IMUData> imudatas;
+    vector<IMUData> imudatas;
     // Open camera
     std::cout << "Open Camera: "<< std::endl;
     stringstream device;
@@ -78,22 +79,29 @@ int main(int argc, char **argv)
 
     cv::Mat img_left;
     cv::Mat img_right;
-    while(slam_flag==1)
+    while(slam_flag!=100)
     {
 
         cam.Grab();
         cam.RetrieveImage(img_left, View::VIEW_LEFT_UNRECTIFIED);
         cam.RetrieveImage(img_right, View::VIEW_RIGHT_UNRECTIFIED);
-        //cam.RetrieveIMUData(imudatas,timestamp);
+        cam.RetrieveIMUData(imudatas,timestamp);
         time = static_cast<float>(static_cast<float>(timestamp)/10000.0);
 
         //SLAM.TrackMonocular(img_left, time);
-        SLAM.TrackStereo(img_left, img_right,time);
- //       slam_flag++;
-//        if(slam_flag==100)
+        Mat each_pose;
+        each_pose=SLAM.TrackStereo(img_left, img_right,time);
+        if(!each_pose.empty())
+        {
+            Draw2dMap(each_pose,background,time);
+        }
+
+        slam_flag++;
+//        if(slam_flag==2000)
 //            break;
 
     }
+    cv::imwrite("/home/tony_jun/Git/ORB_SLAM2/map2d.jpg", background);
     SLAM.Shutdown();
     SLAM.SaveTrajectoryKITTI("CameraTrajectory.txt");
     SLAM.SaveMap("./mynt.map.jpg");
@@ -102,5 +110,18 @@ int main(int argc, char **argv)
 
     return 0;
 
+}
+
+void Draw2dMap(Mat &pose, Mat &background, double timestamp) {
+    Mat t(3, 1, CV_32F);
+    Mat R(3, 3, CV_32F);
+    Mat tw(3, 1, CV_32F);
+
+    t = pose.rowRange(0, 3).col(3);
+    R = pose.rowRange(0, 3).colRange(0, 3);
+
+    tw = (-1) * R.inv() * t;
+    cv::circle(background, cv::Point2f(tw.at<float>(0, 0)*10 + 600, tw.at<float>(0, 2)*10 + 600), 0, 255);
+    cout << "<<<<<<<<<Pose output world: " << timestamp << "\n" << tw << endl;
 }
 

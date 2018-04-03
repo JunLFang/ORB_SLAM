@@ -5,35 +5,35 @@
 #--------------------------------------------------------------------------------------------
 
 # Camera calibration and distortion parameters (OpenCV)
-Camera.fx: 4.501204034709554e+02
-Camera.fy: 4.507917220444474e+02
-Camera.cx: 3.8583649427642735e+02
-Camera.cy: 2.2901915746961888e+02   
+Camera.fx: 436.1705041973962
+Camera.fy: 435.8488296309694
+Camera.cx: 375.1014158852559
+Camera.cy: 242.9631837041267
 
-Camera.k1: -3.6162786242778283e-01
-Camera.k2: 1.9364949375702195e-01
-Camera.p1: 1.8417637165743935e-03
-Camera.p2: 8.500730204061938e-04
+Camera.k1: -0.37089697526874993
+Camera.k2: 0.14616225783657105
+Camera.p1: 0
+Camera.p2: 0
 Camera.k3: 0  
 
 # Camera frames per second
-Camera.fps: 60.0
+Camera.fps: 50.0
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 1
 
 # stereo baseline times fx
 # bf = baseline * fx = 0.12 * fx (ZED), in Meter
-Camera.bf: 53.3586073694
+Camera.bf: 52.07388
 
 # Close/Far threshold. Baseline times.
-ThDepth: 500
+ThDepth: 80
 
 #--------------------------------------------------------------------------------------------
 # ORB Parameters
 #--------------------------------------------------------------------------------------------
 
-# ORB Extractor: Number of features per image
+# ORB Extractor: Number of feature s per image
 ORBextractor.nFeatures: 2000
 
 # ORB Extractor: Scale factor between levels in the scale pyramid

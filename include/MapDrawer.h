@@ -44,8 +44,10 @@ public:
     void SetCurrentCameraPose(const cv::Mat &Tcw);
     void SetReferenceKeyFrame(KeyFrame *pKF);
     void GetCurrentOpenGLCameraMatrix(pangolin::OpenGlMatrix &M);
-
+    //add by tony
     void InitMat(cv::Mat& m,float* num);
+    //add by tony 2018.04.03
+    void Draw2DMap();
 
 private:
 

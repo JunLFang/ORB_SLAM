@@ -46,7 +46,7 @@ namespace ORB_SLAM2
 Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Map *pMap, KeyFrameDatabase* pKFDB, const string &strSettingPath, const int sensor):
     mState(NO_IMAGES_YET), mSensor(sensor), mbOnlyTracking(false), mbVO(false), mpORBVocabulary(pVoc),
     mpKeyFrameDB(pKFDB), mpInitializer(static_cast<Initializer*>(NULL)), mpSystem(pSys), mpViewer(NULL),
-    mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0)
+    mpFrameDrawer(pFrameDrawer), mpMapDrawer(pMapDrawer), mpMap(pMap), mnLastRelocFrameId(0),mMap2D(cv::Mat(1500,1500,CV_32FC1))
 {
     // Load camera parameters from settings file
 
@@ -195,6 +195,7 @@ cv::Mat Tracking::GrabImageStereo(const cv::Mat &imRectLeft, const cv::Mat &imRe
             cvtColor(imGrayRight,imGrayRight,CV_BGRA2GRAY);
         }
     }
+   // imshow("right_fram",imGrayRight);
 
     mCurrentFrame = Frame(mImGray,imGrayRight,timestamp,mpORBextractorLeft,mpORBextractorRight,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
@@ -226,6 +227,7 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB,const cv::Mat &imD, const d
 
     if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
+
 
     mCurrentFrame = Frame(mImGray,imDepth,timestamp,mpORBextractorLeft,mpORBVocabulary,mK,mDistCoef,mbf,mThDepth);
 
@@ -526,6 +528,14 @@ void Tracking::StereoInitialization()
             if(z>0)
             {
                 cv::Mat x3D = mCurrentFrame.UnprojectStereo(i);
+//              cv::Mat Ow_fit;
+//              float X3D=Ow_fit.at<float>(0,0);
+//              float Y3D=Ow_fit.at<float>(1,0);
+//              std::cout<<X3D<<"," <<endl;
+//              std::cout<<Y3D<<"\n"  <<endl;
+//
+//              cv::circle(mMap2D, cv::Point2f(X3D*10+750,Y3D*10+750),0,255);
+//              cv::imshow("map2d",mMap2D);
                 MapPoint* pNewMP = new MapPoint(x3D,pKFini,mpMap);
                 pNewMP->AddObservation(pKFini,i);
                 pKFini->AddMapPoint(pNewMP,i);

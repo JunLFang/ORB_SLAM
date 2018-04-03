@@ -214,6 +214,8 @@ protected:
     bool mbRGB;
 
     list<MapPoint*> mlpTemporalPoints;
+
+    cv::Mat mMap2D;
 };
 
 } //namespace ORB_SLAM

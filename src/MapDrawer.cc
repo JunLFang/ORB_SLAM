@@ -28,7 +28,7 @@ namespace ORB_SLAM2
 {
 
 
-MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap),mPosevector(cv::Mat(4,1,CV_32FC1)),mMap2D(cv::Mat(500,500,CV_32FC1))
+MapDrawer::MapDrawer(Map* pMap, const string &strSettingPath):mpMap(pMap),mPosevector(cv::Mat(4,1,CV_32FC1)),mMap2D(cv::Mat(1500,1500,CV_32FC1))
 {
 
     cv::FileStorage fSettings(strSettingPath, cv::FileStorage::READ);
@@ -67,8 +67,8 @@ void MapDrawer::DrawMapPoints()
             continue;
         cv::Mat pos = vpMPs[i]->GetWorldPos();
         //add map show
-//        cv::circle(mMap2D, cv::Point2f(pos.at<float>(0)*10+500,pos.at<float>(1)*10+500),0,255);
-//        cout<<cv::Point2f(pos.at<float>(0)+500,pos.at<float>(1)+500)<<endl;
+//        cv::circle(mMap2D, cv::Point2f(pos.at<float>(0)*10+750,pos.at<float>(1)*10+750),0,255);
+//        cout<<cv::Point2f(pos.at<float>(0)+750,pos.at<float>(1)+750)<<endl;
 //        cv::imshow("map2d",mMap2D);
 
         glVertex3f(pos.at<float>(0),pos.at<float>(1),pos.at<float>(2));
@@ -99,25 +99,25 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
     const float z = w*0.6;
 
     const vector<KeyFrame*> vpKFs = mpMap->GetAllKeyFrames();
-
-    for(auto each_key : vpKFs)
-    {
-        cv::imshow("each_key pose",each_key->GetPose());
-        //cout<<mPosevector<<endl;
-//        mPosevector=(each_key->GetPose())*mPosevector;
-//        float x3D=mPosevector.at<float>(0,0);
-//        float y3D=mPosevector.at<float>(1,0);
-//        float x2D=x3D+250;
-//        float y2D=y3D+250;
 //
-//        cv::circle(mMap2D, cv::Point2f(x2D,y2D),0,255);
-//        cv::imshow("map2d",mMap2D);
-
-//        std::cout<<mPosevector.at<float>(0,0)<<"," <<endl;
-//        std::cout<<mPosevector.at<float>(1,0)<<","  <<endl;
-//        std::cout<<mPosevector.at<float>(2,0)<<","  <<endl;
-//        std::cout<<mPosevector.at<float>(3,0)<<"\n"<<endl;
-    }
+//    for(auto each_key : vpKFs)
+//    {
+//       // cv::imshow("each_key pose",each_key->GetPose());
+//        //cout<<mPosevector<<endl;
+////        mPosevector=(each_key->GetPose())*mPosevector;
+////        float x3D=mPosevector.at<float>(0,0);
+////        float y3D=mPosevector.at<float>(1,0);
+////        float x2D=x3D+250;
+////        float y2D=y3D+250;
+////
+////        cv::circle(mMap2D, cv::Point2f(x2D,y2D),0,255);
+////        cv::imshow("map2d",mMap2D);
+//
+////        std::cout<<mPosevector.at<float>(0,0)<<"," <<endl;
+////        std::cout<<mPosevector.at<float>(1,0)<<","  <<endl;
+////        std::cout<<mPosevector.at<float>(2,0)<<","  <<endl;
+////        std::cout<<mPosevector.at<float>(3,0)<<"\n"<<endl;
+//    }
 
 
     if(bDrawKF)
@@ -126,6 +126,8 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
         {
             KeyFrame* pKF = vpKFs[i];
             cv::Mat Twc = pKF->GetPoseInverse().t();
+
+
 
             glPushMatrix();
 
@@ -171,20 +173,21 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
             // Covisibility Graph
             const vector<KeyFrame*> vCovKFs = vpKFs[i]->GetCovisiblesByWeight(100);
             cv::Mat Ow = vpKFs[i]->GetCameraCenter();
-            cv::Mat trans_matrix(3,3,CV_32FC1);
-            float m0[]={ cos(M_PI/4),-sin(M_PI/4),0,
-                         sin(M_PI/4),cos(M_PI/4),0,
-                       0,0,1 };
-            InitMat(trans_matrix,m0);
-            cv::Mat Ow_fit;
-            Ow_fit=trans_matrix*Ow;
-            float x3D=Ow_fit.at<float>(0,0);
-            float y3D=Ow_fit.at<float>(1,0);
-            std::cout<<x3D<<"," <<endl;
-            std::cout<<y3D<<"\n"  <<endl;
 
-            cv::circle(mMap2D, cv::Point2f(x3D*100+250,y3D*100+250),0,255);
-            cv::imshow("map2d",mMap2D);
+//            cv::Mat trans_matrix(3,3,CV_32FC1);
+//            float m0[]={ cos(M_PI/4),-sin(M_PI/4),0,
+//                         sin(M_PI/4),cos(M_PI/4),0,
+//                       0,0,1 };
+//            InitMat(trans_matrix,m0);
+//            cv::Mat Ow_fit;
+//            Ow_fit=trans_matrix*Ow;
+//            float x3D=Ow_fit.at<float>(0,0);
+//            float y3D=Ow_fit.at<float>(1,0);
+//            std::cout<<x3D<<"," <<endl;
+//            std::cout<<y3D<<"\n"  <<endl;
+//
+//            cv::circle(mMap2D, cv::Point2f(x3D*10+750,y3D*10+750),0,255);
+//            cv::imshow("map2d",mMap2D);
 //          for(auto each_key : vCovKFs)
 //          {
 //            cv::imshow("each_key pose",each_key->GetPose());
@@ -209,8 +212,16 @@ void MapDrawer::DrawKeyFrames(const bool bDrawKF, const bool bDrawGraph)
                     if((*vit)->mnId<vpKFs[i]->mnId)
                         continue;
                     cv::Mat Ow2 = (*vit)->GetCameraCenter();
-                    glVertex3f(Ow.at<float>(0),Ow.at<float>(1),Ow.at<float>(2));
-                    glVertex3f(Ow2.at<float>(0),Ow2.at<float>(1),Ow2.at<float>(2));
+                    cv::Mat CW2 =(*vit)->GetStereoCenter();
+//                  float x3D=CW2.at<float>(0,0);
+//                  float y3D=CW2.at<float>(1,0);
+//                  float x2D=x3D*10+750;
+//                  float y2D=y3D*10+750;
+//
+//                  cv::circle(mMap2D, cv::Point2f(x2D,y2D),0,255);
+//                  cv::imshow("map2d",mMap2D);
+//                    glVertex3f(Ow.at<float>(0),Ow.at<float>(1),Ow.at<float>(2));
+//                    glVertex3f(Ow2.at<float>(0),Ow2.at<float>(1),Ow2.at<float>(2));
                 }
             }
 
@@ -332,6 +343,12 @@ void MapDrawer::InitMat(cv::Mat& m,float* num)
   for(int i=0;i<m.rows;i++)
     for(int j=0;j<m.cols;j++)
       m.at<float>(i,j)=*(num+i*m.rows+j);
+}
+
+
+void MapDrawer::Draw2DMap() {
+
+
 }
 
 

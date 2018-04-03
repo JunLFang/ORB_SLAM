@@ -33,132 +33,138 @@ using namespace std;
 
 void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
                 vector<string> &vstrImageRight, vector<double> &vTimestamps);
+void Draw2dMap(Mat &pose, Mat &background, double timestamp);
 
-int main(int argc, char **argv)
-{
-    if(argc != 4)
-    {
-        cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
-        return 1;
+int main(int argc, char **argv) {
+  if (argc != 4) {
+    cerr << endl << "Usage: ./stereo_kitti path_to_vocabulary path_to_settings path_to_sequence" << endl;
+    return 1;
+  }
+
+  // Retrieve paths to images
+  vector<string> vstrImageLeft;
+  vector<string> vstrImageRight;
+  vector<double> vTimestamps;
+  LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
+
+  const int nImages = vstrImageLeft.size();
+
+  // Create SLAM system. It initializes all system threads and gets ready to process frames.
+  ORB_SLAM2::System SLAM(argv[1], argv[2], ORB_SLAM2::System::STEREO, true);
+
+  // Vector for tracking time statistics
+  vector<float> vTimesTrack;
+  vTimesTrack.resize(nImages);
+
+  cout << endl << "-------" << endl;
+  cout << "Start processing sequence ..." << endl;
+  cout << "Images in the sequence: " << nImages << endl << endl;
+  Mat background(1200, 1200, CV_32F);
+  // Main loop
+  cv::Mat imLeft, imRight;
+  for (int ni = 0; ni < 500; ni++) {
+    // Read left and right images from file
+    imLeft = cv::imread(vstrImageLeft[ni], CV_LOAD_IMAGE_UNCHANGED);
+    imRight = cv::imread(vstrImageRight[ni], CV_LOAD_IMAGE_UNCHANGED);
+    double tframe = vTimestamps[ni];
+
+    if (imLeft.empty()) {
+      cerr << endl << "Failed to load image at: "
+           << string(vstrImageLeft[ni]) << endl;
+      return 1;
     }
-
-    // Retrieve paths to images
-    vector<string> vstrImageLeft;
-    vector<string> vstrImageRight;
-    vector<double> vTimestamps;
-    LoadImages(string(argv[3]), vstrImageLeft, vstrImageRight, vTimestamps);
-
-    const int nImages = vstrImageLeft.size();
-
-    // Create SLAM system. It initializes all system threads and gets ready to process frames.
-    ORB_SLAM2::System SLAM(argv[1],argv[2],ORB_SLAM2::System::STEREO,true);
-
-    // Vector for tracking time statistics
-    vector<float> vTimesTrack;
-    vTimesTrack.resize(nImages);
-
-    cout << endl << "-------" << endl;
-    cout << "Start processing sequence ..." << endl;
-    cout << "Images in the sequence: " << nImages << endl << endl;   
-
-    // Main loop
-    cv::Mat imLeft, imRight;
-    for(int ni=0; ni<nImages; ni++)
-    {
-        // Read left and right images from file
-        imLeft = cv::imread(vstrImageLeft[ni],CV_LOAD_IMAGE_UNCHANGED);
-        imRight = cv::imread(vstrImageRight[ni],CV_LOAD_IMAGE_UNCHANGED);
-        double tframe = vTimestamps[ni];
-
-        if(imLeft.empty())
-        {
-            cerr << endl << "Failed to load image at: "
-                 << string(vstrImageLeft[ni]) << endl;
-            return 1;
-        }
 
 #ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point t1 = std::chrono::steady_clock::now();
 #else
-        std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
+    std::chrono::monotonic_clock::time_point t1 = std::chrono::monotonic_clock::now();
 #endif
 
-        // Pass the images to the SLAM system
-        SLAM.TrackStereo(imLeft,imRight,tframe);
+    // Pass the images to the SLAM system
+    Mat each_pose;
+    each_pose = SLAM.TrackStereo(imLeft, imRight, tframe);
+    Draw2dMap(each_pose,background,tframe);
 
 #ifdef COMPILEDWITHC11
-        std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point t2 = std::chrono::steady_clock::now();
 #else
-        std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
+    std::chrono::monotonic_clock::time_point t2 = std::chrono::monotonic_clock::now();
 #endif
 
-        double ttrack= std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
+    double ttrack = std::chrono::duration_cast<std::chrono::duration<double> >(t2 - t1).count();
 
-        vTimesTrack[ni]=ttrack;
+    vTimesTrack[ni] = ttrack;
 
-        // Wait to load the next frame
-        double T=0;
-        if(ni<nImages-1)
-            T = vTimestamps[ni+1]-tframe;
-        else if(ni>0)
-            T = tframe-vTimestamps[ni-1];
+    // Wait to load the next frame
+    double T = 0;
+    if (ni < nImages - 1)
+      T = vTimestamps[ni + 1] - tframe;
+    else if (ni > 0)
+      T = tframe - vTimestamps[ni - 1];
 
-        if(ttrack<T)
-            usleep((T-ttrack)*1e6);
-    }
+    if (ttrack < T)
+      usleep((T - ttrack) * 1e6);
+  }
+  cv::imwrite("/home/tony_jun/Git/ORB_SLAM2/map2d.jpg", background);
+  // Stop all threads
+  SLAM.Shutdown();
 
-    // Stop all threads
-    SLAM.Shutdown();
+  // Tracking time statistics
+  sort(vTimesTrack.begin(), vTimesTrack.end());
+  float totaltime = 0;
+  for (int ni = 0; ni < nImages; ni++) {
+    totaltime += vTimesTrack[ni];
+  }
+  cout << "-------" << endl << endl;
+  cout << "median tracking time: " << vTimesTrack[nImages / 2] << endl;
+  cout << "mean tracking time: " << totaltime / nImages << endl;
 
-    // Tracking time statistics
-    sort(vTimesTrack.begin(),vTimesTrack.end());
-    float totaltime = 0;
-    for(int ni=0; ni<nImages; ni++)
-    {
-        totaltime+=vTimesTrack[ni];
-    }
-    cout << "-------" << endl << endl;
-    cout << "median tracking time: " << vTimesTrack[nImages/2] << endl;
-    cout << "mean tracking time: " << totaltime/nImages << endl;
+  // Save camera trajectory
+  SLAM.SaveTrajectoryKITTI("CameraTrajectory.txt");
 
-    // Save camera trajectory
-    SLAM.SaveTrajectoryKITTI("CameraTrajectory.txt");
-
-    return 0;
+  return 0;
 }
 
 void LoadImages(const string &strPathToSequence, vector<string> &vstrImageLeft,
-                vector<string> &vstrImageRight, vector<double> &vTimestamps)
-{
-    ifstream fTimes;
-    string strPathTimeFile = strPathToSequence + "/times.txt";
-    fTimes.open(strPathTimeFile.c_str());
-    while(!fTimes.eof())
-    {
-        string s;
-        getline(fTimes,s);
-        if(!s.empty())
-        {
-            stringstream ss;
-            ss << s;
-            double t;
-            ss >> t;
-            vTimestamps.push_back(t);
-        }
+                vector<string> &vstrImageRight, vector<double> &vTimestamps) {
+  ifstream fTimes;
+  string strPathTimeFile = strPathToSequence + "/times.txt";
+  fTimes.open(strPathTimeFile.c_str());
+  while (!fTimes.eof()) {
+    string s;
+    getline(fTimes, s);
+    if (!s.empty()) {
+      stringstream ss;
+      ss << s;
+      double t;
+      ss >> t;
+      vTimestamps.push_back(t);
     }
+  }
 
-    string strPrefixLeft = strPathToSequence + "/image_0/";
-    string strPrefixRight = strPathToSequence + "/image_1/";
+  string strPrefixLeft = strPathToSequence + "/image_0/";
+  string strPrefixRight = strPathToSequence + "/image_1/";
 
-    const int nTimes = vTimestamps.size();
-    vstrImageLeft.resize(nTimes);
-    vstrImageRight.resize(nTimes);
+  const int nTimes = vTimestamps.size();
+  vstrImageLeft.resize(nTimes);
+  vstrImageRight.resize(nTimes);
 
-    for(int i=0; i<nTimes; i++)
-    {
-        stringstream ss;
-        ss << setfill('0') << setw(6) << i;
-        vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
-        vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
-    }
+  for (int i = 0; i < nTimes; i++) {
+    stringstream ss;
+    ss << setfill('0') << setw(6) << i;
+    vstrImageLeft[i] = strPrefixLeft + ss.str() + ".png";
+    vstrImageRight[i] = strPrefixRight + ss.str() + ".png";
+  }
+}
+void Draw2dMap(Mat &pose, Mat &background, double timestamp) {
+  Mat t(3, 1, CV_32F);
+  Mat R(3, 3, CV_32F);
+  Mat tw(3, 1, CV_32F);
+  t = pose.rowRange(0, 3).col(3);
+  R = pose.rowRange(0, 3).colRange(0, 3);
+
+  tw = (-1) * R.inv() * t;
+  cv::circle(background, cv::Point2f(tw.at<float>(0, 0) + 600, tw.at<float>(0, 2) + 600), 0, 255);
+  cout << "<<<<<<<<<Pose output world: " << timestamp << "\n" << tw << endl;
+
 }
