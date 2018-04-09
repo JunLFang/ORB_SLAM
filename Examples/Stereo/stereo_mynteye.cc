@@ -79,7 +79,8 @@ int main(int argc, char **argv)
 
     cv::Mat img_left;
     cv::Mat img_right;
-    while(slam_flag!=100)
+    int n=1;
+    while(slam_flag!=1000)
     {
 
         cam.Grab();
@@ -99,6 +100,13 @@ int main(int argc, char **argv)
         slam_flag++;
 //        if(slam_flag==2000)
 //            break;
+
+        if(slam_flag==100*n) {
+            n++;
+            cv::imwrite("/home/jimmy/VSLAM/ORB_SLAM2/map2d.jpg", background);
+            cout << "imwrite success" << endl;
+        }
+        
 
     }
     cv::imwrite("/home/tony_jun/Git/ORB_SLAM2/map2d.jpg", background);
